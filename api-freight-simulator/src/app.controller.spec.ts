@@ -14,9 +14,17 @@ describe('AppController', () => {
     appController = app.get<AppController>(AppController);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+  describe('simulate', () => {
+    it('should return simulations', () => {
+      expect(
+        appController.simulateFreight({
+          originZipCode: '',
+          destinationZipcode: '',
+          height: 0,
+          width: 0,
+          length: 0,
+        }),
+      ).toBe('Hello World!');
     });
   });
 });
