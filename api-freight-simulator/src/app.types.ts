@@ -5,3 +5,9 @@ export interface ProductDataToSimulateFreight {
   width: number;
   length: number;
 }
+
+export interface Operator {
+  name: string;
+  deliveryTime: number;
+  totalCost: number | string;
+}

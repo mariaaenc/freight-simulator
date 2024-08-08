@@ -16,15 +16,17 @@ describe('AppController', () => {
 
   describe('simulate', () => {
     it('should return simulations', () => {
-      expect(
-        appController.simulateFreight({
-          originZipCode: '',
-          destinationZipcode: '',
-          height: 0,
-          width: 0,
-          length: 0,
-        }),
-      ).toBe('Hello World!');
+      const response = appController.simulateFreight({
+        originZipCode: '',
+        destinationZipcode: '',
+        height: 0,
+        width: 0,
+        length: 0,
+      });
+      expect(response).toEqual([
+        { name: 'Operador 1', deliveryTime: 1, totalCost: 'R$ 9,60' },
+        { name: 'Operador 2', deliveryTime: 1, totalCost: 'R$ 10,80' },
+      ]);
     });
   });
 });
