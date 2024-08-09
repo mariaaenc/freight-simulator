@@ -16,6 +16,9 @@ export class AppService {
       costForLogisticOperator1,
       costForLogisticOperator2,
     );
+
+    this.setLowestCostAndFastestDeliveryOperator(operators);
+
     return operators.map((item) => ({
       ...item,
       totalCost: currencyFormat(item.totalCost),
@@ -51,11 +54,15 @@ export class AppService {
       name: 'Operador 1',
       deliveryTime: 0,
       totalCost: 0,
+      lowestCost: false,
+      fastestDelivery: false,
     };
     const operator2: Operator = {
       name: 'Operador 2',
       deliveryTime: 0,
       totalCost: 0,
+      lowestCost: false,
+      fastestDelivery: false,
     };
 
     if (distance <= 100) {
@@ -76,5 +83,25 @@ export class AppService {
     }
 
     return [operator1, operator2];
+  }
+
+  setLowestCostAndFastestDeliveryOperator(operators: Operator[]): void {
+    operators.sort(
+      (operator1, operator2) =>
+        Number(operator1.totalCost) - Number(operator2.totalCost),
+    );
+
+    const lowestCostOperator = operators[0];
+
+    const minDeliveryTime = Math.min(
+      ...operators.map((operator) => operator.deliveryTime),
+    );
+
+    const fastestDeliveryOperator = operators.find(
+      (operator) => operator.deliveryTime === minDeliveryTime,
+    );
+
+    fastestDeliveryOperator.fastestDelivery = true;
+    lowestCostOperator.lowestCost = true;
   }
 }
