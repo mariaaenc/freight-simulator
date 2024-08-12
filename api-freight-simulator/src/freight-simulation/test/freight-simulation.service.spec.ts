@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { FreightSimulationService } from './freight-simulation.service';
-import { GeocodingModule } from '../geocoding/geocoding.module';
-import { GeocodingService } from '../geocoding/geocoding.service';
+import { FreightSimulationService } from '../freight-simulation.service';
+import { GeocodingModule } from '@/geocoding/geocoding.module';
+import { GeocodingService } from '@/geocoding/geocoding.service';
 
 describe('FreightSimulationService', () => {
   let service: FreightSimulationService;

@@ -2,9 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import {
   freightSimulationsMock,
   FreightSimulationServiceMock,
-} from './mocks/freight-simulation.mock';
-import { FreightSimulationService } from './freight-simulation.service';
-import { FreightSimulationController } from './freight-simulation.controller';
+} from '../mocks/freight-simulation.mock';
+import { FreightSimulationService } from '../freight-simulation.service';
+import { FreightSimulationController } from '../freight-simulation.controller';
 
 describe('FreightSimulationController', () => {
   let controller: FreightSimulationController;

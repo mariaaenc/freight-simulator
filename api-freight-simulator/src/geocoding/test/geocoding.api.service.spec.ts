@@ -2,8 +2,8 @@ import { of, throwError } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import { HttpModule, HttpService } from '@nestjs/axios';
 import { Test, TestingModule } from '@nestjs/testing';
-import { GeocodingApiService } from './geocoding.api.service';
-import { mockGeocodingResponse } from './mocks/geocoding.mock';
+import { GeocodingApiService } from '../geocoding.api.service';
+import { mockGeocodingResponse } from '../mocks/geocoding.mock';
 
 const defaultAxiosResponse: AxiosResponse = {
   data: {},

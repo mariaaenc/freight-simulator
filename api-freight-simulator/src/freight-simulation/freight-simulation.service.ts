@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { currencyFormat } from '../helpers';
 import { Operator } from '../app.types';
+import { currencyFormat, calculateDistance } from '@/helpers';
 import { CreateFreightSimulationDto } from './dto/create-freight-simulation.dto';
-import { GeocodingService } from '../geocoding/geocoding.service';
-import { calculateDistance } from '../helpers/distance.helper';
+import { GeocodingService } from '@/geocoding/geocoding.service';
 
 @Injectable()
 export class FreightSimulationService {

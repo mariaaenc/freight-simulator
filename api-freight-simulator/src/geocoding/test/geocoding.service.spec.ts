@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { GeocodingService } from './geocoding.service';
-import { mockGeocodingResponse } from './mocks/geocoding.mock';
-import { GeocodingApiService } from './geocoding.api.service';
+import { GeocodingService } from '../geocoding.service';
+import { GeocodingApiService } from '../geocoding.api.service';
+import { mockGeocodingResponse } from '../mocks/geocoding.mock';
 
 describe('GeocodingService', () => {
   let service: GeocodingService;
