@@ -1,6 +1,10 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { FreightSimulationController } from './freight-simulation.controller';
+import {
+  freightSimulationsMock,
+  FreightSimulationServiceMock,
+} from './mocks/freight-simulation.mock';
 import { FreightSimulationService } from './freight-simulation.service';
+import { FreightSimulationController } from './freight-simulation.controller';
 
 describe('FreightSimulationController', () => {
   let controller: FreightSimulationController;
@@ -8,7 +12,12 @@ describe('FreightSimulationController', () => {
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [FreightSimulationController],
-      providers: [FreightSimulationService],
+      providers: [
+        {
+          provide: FreightSimulationService,
+          useClass: FreightSimulationServiceMock,
+        },
+      ],
     }).compile();
 
     controller = module.get<FreightSimulationController>(
@@ -19,27 +28,12 @@ describe('FreightSimulationController', () => {
   it('should create and return simulation', () => {
     expect(controller).toBeDefined();
     const response = controller.create({
-      originZipCode: '',
-      destinationZipcode: '',
+      originZipCode: '89222520',
+      destinationZipCode: '01001000',
       height: 0,
       width: 0,
       length: 0,
     });
-    expect(response).toEqual([
-      {
-        name: 'Operador 1',
-        deliveryTime: 1,
-        totalCost: 'R$ 9,60',
-        fastestDelivery: true,
-        lowestCost: true,
-      },
-      {
-        name: 'Operador 2',
-        deliveryTime: 1,
-        totalCost: 'R$ 10,80',
-        fastestDelivery: false,
-        lowestCost: false,
-      },
-    ]);
+    expect(response).toEqual(freightSimulationsMock);
   });
 });

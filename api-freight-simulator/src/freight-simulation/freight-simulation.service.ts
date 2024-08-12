@@ -2,15 +2,18 @@ import { Injectable } from '@nestjs/common';
 import { currencyFormat } from '../helpers';
 import { Operator } from '../app.types';
 import { CreateFreightSimulationDto } from './dto/create-freight-simulation.dto';
+import { GeocodingService } from '../geocoding/geocoding.service';
+import { calculateDistance } from '../helpers/distance.helper';
 
 @Injectable()
 export class FreightSimulationService {
-  create(data: CreateFreightSimulationDto) {
+  constructor(private readonly geocodingService: GeocodingService) {}
+  public async create(data: CreateFreightSimulationDto) {
     const [costForLogisticOperator1, costForLogisticOperator2] =
       this.calculateCostPerCubicWeight(data);
-    const distance = this.calculateDistanceBetweenLocations(
+    const distance = await this.calculateDistanceBetweenLocations(
       data.originZipCode,
-      data.destinationZipcode,
+      data.destinationZipCode,
     );
     const operators = this.calculateOperatorsTotalCostAndDeliveryTime(
       distance,
@@ -26,7 +29,9 @@ export class FreightSimulationService {
     }));
   }
 
-  calculateCostPerCubicWeight(data: CreateFreightSimulationDto): number[] {
+  private calculateCostPerCubicWeight(
+    data: CreateFreightSimulationDto,
+  ): number[] {
     const minimumCost = 6;
     const logisticOperator1 = (data.width * data.height * data.length) / 6000;
     const logisticOperator2 = (data.width * data.height * data.length) / 5000;
@@ -37,16 +42,26 @@ export class FreightSimulationService {
     return [costForLogisticOperator1, costForLogisticOperator2];
   }
 
-  calculateDistanceBetweenLocations(
+  private async calculateDistanceBetweenLocations(
     originZipCode: string,
-    destinationZipcode: string,
-  ) {
-    // TODO: Integração com geocoding
-    console.log(originZipCode, destinationZipcode);
-    return 0;
+    destinationZipCode: string,
+  ): Promise<number> {
+    const [originGeocoding, destinationGeocoding] = await Promise.all([
+      this.geocodingService.getLongitudeAndLatitude(originZipCode),
+      this.geocodingService.getLongitudeAndLatitude(destinationZipCode),
+    ]);
+
+    const distance = calculateDistance(
+      originGeocoding.latitude,
+      originGeocoding.longitude,
+      destinationGeocoding.latitude,
+      destinationGeocoding.longitude,
+    );
+
+    return distance;
   }
 
-  calculateOperatorsTotalCostAndDeliveryTime(
+  private calculateOperatorsTotalCostAndDeliveryTime(
     distance: number,
     costForLogisticOperator1: number,
     costForLogisticOperator2: number,
@@ -86,7 +101,7 @@ export class FreightSimulationService {
     return [operator1, operator2];
   }
 
-  setLowestCostAndFastestDeliveryOperator(operators: Operator[]): void {
+  private setLowestCostAndFastestDeliveryOperator(operators: Operator[]): void {
     operators.sort(
       (operator1, operator2) =>
         Number(operator1.totalCost) - Number(operator2.totalCost),
