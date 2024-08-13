@@ -1,12 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { Operator } from '../app.types';
 import { currencyFormat, calculateDistance } from '@/helpers';
-import { CreateFreightSimulationDto } from './dto/create-freight-simulation.dto';
 import { GeocodingService } from '@/geocoding/geocoding.service';
+import { CreateFreightSimulationDto } from './dto/create-freight-simulation.dto';
+import { FreightSimulationApiService } from './freight-simulation.api.service';
 
 @Injectable()
 export class FreightSimulationService {
-  constructor(private readonly geocodingService: GeocodingService) {}
+  constructor(
+    private readonly geocodingService: GeocodingService,
+    private readonly freightSimulationApiService: FreightSimulationApiService,
+  ) {}
   public async create(data: CreateFreightSimulationDto) {
     const [costForLogisticOperator1, costForLogisticOperator2] =
       this.calculateCostPerCubicWeight(data);
@@ -21,6 +25,11 @@ export class FreightSimulationService {
     );
 
     this.setLowestCostAndFastestDeliveryOperator(operators);
+
+    await this.freightSimulationApiService.create({
+      ...data,
+      operatorsResult: operators,
+    });
 
     return operators.map((item) => ({
       ...item,
@@ -66,6 +75,7 @@ export class FreightSimulationService {
     costForLogisticOperator2: number,
   ): Operator[] {
     const operator1: Operator = {
+      operatorId: '1',
       name: 'Operador 1',
       deliveryTime: 0,
       totalCost: 0,
@@ -73,6 +83,7 @@ export class FreightSimulationService {
       fastestDelivery: false,
     };
     const operator2: Operator = {
+      operatorId: '2',
       name: 'Operador 2',
       deliveryTime: 0,
       totalCost: 0,
