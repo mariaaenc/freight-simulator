@@ -6,15 +6,21 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { GeocodingResponse } from './geocoding.types';
 
 @Injectable()
 export class GeocodingApiService {
-  private readonly apiKey = process.env.GOOGLE_GEOCODE_API_KEY;
+  private readonly apiKey = this.configService.get<string>(
+    'GOOGLE_GEOCODE_API_KEY',
+  );
   private readonly geocodingUrl =
     'https://maps.googleapis.com/maps/api/geocode/json';
 
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly configService: ConfigService,
+  ) {}
 
   public async getGeocoding(address: string): Promise<GeocodingResponse> {
     try {

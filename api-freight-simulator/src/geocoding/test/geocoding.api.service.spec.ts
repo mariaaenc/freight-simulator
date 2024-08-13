@@ -1,6 +1,7 @@
 import { of, throwError } from 'rxjs';
 import { AxiosResponse } from 'axios';
 import { HttpModule, HttpService } from '@nestjs/axios';
+import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
 import { GeocodingApiService } from '../geocoding.api.service';
 import { mockGeocodingResponse } from '../mocks/geocoding.mock';
@@ -21,7 +22,7 @@ describe('GeocodingApiService', () => {
   beforeEach(async () => {
     process.env.GOOGLE_GEOCODE_API_KEY = 'fake_api_key';
     const module: TestingModule = await Test.createTestingModule({
-      imports: [HttpModule],
+      imports: [HttpModule, ConfigModule],
       providers: [
         GeocodingApiService,
         {

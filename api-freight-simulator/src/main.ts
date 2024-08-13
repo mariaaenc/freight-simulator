@@ -1,7 +1,9 @@
+import { MongoClient } from 'mongodb';
 import { NestFactory } from '@nestjs/core';
+import { ConfigService } from '@nestjs/config';
+import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -27,6 +29,21 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+
+  const configService: ConfigService = new ConfigService();
+
+  const mongoURI = configService.get<string>('MONGO_DB_URI');
+
+  const mongoClient = new MongoClient(mongoURI);
+
+  try {
+    await mongoClient.connect();
+    console.info('Success to connect mongodb.');
+  } catch (error) {
+    console.error(`Failed to connect mongodb. Error: ${error}`);
+  } finally {
+    await mongoClient.close();
+  }
 
   await app.listen(3000);
 }
