@@ -29,12 +29,15 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://freight-simulator.web.app'],
+    origin: ['http://localhost:3000', 'https://freight-simulator.web.app/'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type, Authorization',
     credentials: true,
   });
 
-  await app.listen(8000);
+  const port = process.env.PORT || 8000;
+  await app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
+  });
 }
 bootstrap();
