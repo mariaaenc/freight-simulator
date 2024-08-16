@@ -1,12 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Type } from 'class-transformer';
-import { IsNumber, IsString, Matches, Min } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, Matches, Min } from 'class-validator';
 
 export class CreateFreightSimulationDto {
+  @ApiProperty()
+  @IsString()
+  @IsNotEmpty()
+  customerId: string;
+
   @ApiProperty({
     example: '89222520',
   })
   @IsString()
+  @IsNotEmpty()
   @Matches(/^\d{8}$/, {
     message: 'The ZIP code must be exactly 8 digits and have only numbers.',
   })
@@ -15,6 +20,7 @@ export class CreateFreightSimulationDto {
   @ApiProperty({
     example: '89245000',
   })
+  @IsNotEmpty()
   @IsString()
   @Matches(/^\d{8}$/, {
     message: 'The ZIP code must be exactly 8 digits and have only numbers.',
@@ -23,19 +29,19 @@ export class CreateFreightSimulationDto {
 
   @ApiProperty()
   @IsNumber()
+  @IsNotEmpty()
   @Min(0, { message: 'Height must be valid number.' })
-  @Type(() => Number)
   height: number;
 
   @ApiProperty()
   @IsNumber()
+  @IsNotEmpty()
   @Min(0, { message: 'Width must be valid number.' })
-  @Type(() => Number)
   width: number;
 
   @ApiProperty()
   @IsNumber()
+  @IsNotEmpty()
   @Min(0, { message: 'Length must be valid number.' })
-  @Type(() => Number)
   length: number;
 }
