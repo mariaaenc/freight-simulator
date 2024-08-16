@@ -1,0 +1,14 @@
+.Operator {
+    display: flex;
+    justify-content: start;
+    flex-direction: row;
+    padding: 36px;
+}
+
+.Operator-item {
+    margin: 10px;
+}
+
+.Calculate-button {
+    height: 48px;
+}

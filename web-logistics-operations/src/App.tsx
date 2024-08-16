@@ -1,11 +1,25 @@
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
-import SimulateFreightForm from './SimulateFreightForm';
+import AppHeader from './AppHeader';
+import PrivateRoute from './authentication/PrivateRoute';
+import LoginPage from './authentication/Login';
+import { AuthProvider } from './authentication/AuthContext';
+import SimulateFreightForm from './simulate-freight/SimulateFreightForm';
 
 function App() {
   return (
-    <div className="App">
-      <SimulateFreightForm />
-    </div>
+    <AuthProvider>
+      <Router>
+        <AppHeader />
+        <div className="App">
+          <Routes>
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/simulate-freight" element={<PrivateRoute element={<SimulateFreightForm />} />} />
+            <Route path="*" element={<Navigate to="/simulate-freight" />} />
+          </Routes>
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
 
