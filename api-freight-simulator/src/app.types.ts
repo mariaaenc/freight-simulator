@@ -1,5 +1,5 @@
 export interface Operator {
-  operatorId: string;
+  id: string;
   name: string;
   deliveryTime: number;
   totalCost: number | string;

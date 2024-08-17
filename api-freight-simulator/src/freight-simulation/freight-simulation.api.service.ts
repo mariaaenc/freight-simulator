@@ -8,7 +8,7 @@ export class FreightSimulationApiService {
   private collection: Collection;
 
   constructor(@Inject('MONGO_CLIENT') private readonly client: MongoClient) {
-    this.db = this.client.db('logistics_operations');
+    this.db = this.client.db();
     this.collection = this.db.collection('freight_simulation');
   }
 

@@ -98,7 +98,7 @@ export class FreightSimulationService {
   ): Partial<Operator>[] {
     const operators: Operator[] = [
       {
-        operatorId: '1',
+        id: '1',
         name: 'Operador 1',
         deliveryTime: 0,
         totalCost: 0,
@@ -124,7 +124,7 @@ export class FreightSimulationService {
         ],
       },
       {
-        operatorId: '2',
+        id: '2',
         name: 'Operador 2',
         deliveryTime: 0,
         totalCost: 0,
@@ -166,7 +166,7 @@ export class FreightSimulationService {
       return {
         totalCost,
         deliveryTime,
-        operatorId: operator.operatorId,
+        id: operator.id,
         name: operator.name,
         lowestCost: operator.lowestCost,
         fastestDelivery: operator.fastestDelivery,
