@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import {
-  FreightInformation,
-  Operator,
-  OperatorDistanceRange,
-} from '../app.types';
 import { currencyFormat, calculateDistance } from '@/helpers';
 import { GeocodingService } from '@/geocoding/geocoding.service';
 import { CreateFreightSimulationDto } from './dto/create-freight-simulation.dto';
 import { FreightSimulationApiService } from './freight-simulation.api.service';
+import {
+  FreightInformation,
+  Operator,
+  OperatorDistanceRange,
+} from '@/operator/entities/operator.entity';
 
 @Injectable()
 export class FreightSimulationService {

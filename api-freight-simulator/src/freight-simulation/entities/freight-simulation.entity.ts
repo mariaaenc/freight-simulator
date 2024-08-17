@@ -1,4 +1,4 @@
-import { Operator } from '@/app.types';
+import { Operator } from '@/operator/entities/operator.entity';
 
 export class FreightSimulation {
   customerId: string;

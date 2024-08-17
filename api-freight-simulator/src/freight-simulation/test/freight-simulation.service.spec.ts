@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { GeocodingService } from '@/geocoding/geocoding.service';
-import { OperatorDistanceRange } from '@/app.types';
+import { OperatorDistanceRange } from '@/operator/entities/operator.entity';
 import { FreightSimulationService } from '../freight-simulation.service';
 import { FreightSimulationApiService } from '../freight-simulation.api.service';
 import { CreateFreightSimulationDto } from '../dto/create-freight-simulation.dto';
