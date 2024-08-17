@@ -7,7 +7,7 @@ const mongoClientProvider = {
   useFactory: async () => {
     const configService: ConfigService = new ConfigService();
 
-    const mongoURI = configService.get<string>('MONGO_DB_URI');
+    const mongoURI = configService.get<string>('MONGO_URI');
 
     const mongoClient = new MongoClient(mongoURI);
 
