@@ -18,8 +18,7 @@ const SimulateFreightForm: React.FC = () => {
     length: '',
   });
 
-  // const apiUrl = 'https://api-freight-simulator-b7aa6dc01480.herokuapp.com';
-  const apiUrl = 'http://localhost:8000';
+  const apiUrl = 'https://api-freight-simulator-b7aa6dc01480.herokuapp.com';
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = event.target;

@@ -53,7 +53,7 @@ const LoginPage: React.FC = () => {
         }}
       >
         <img
-          src="http://localhost:3000/google-icon.png"
+          src={window.location.origin + '/google-icon.png'}
           alt="Google Logo"
           style={{ width: '24px', height: '24px', marginRight: '10px' }}
         />

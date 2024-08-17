@@ -1,5 +1,5 @@
 export interface FreightOperator {
-  operatorId: string;
+  id: string;
   name: string;
   totalCost: number | string;
   deliveryTime: number;
