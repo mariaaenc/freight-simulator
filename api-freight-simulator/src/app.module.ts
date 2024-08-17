@@ -4,6 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MongoModule } from '@/common/mongodb/MongoModule';
 import { FreightSimulationModule } from '@/freight-simulation/freight-simulation.module';
+import { OperatorModule } from '@/operator/operator.module';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { FreightSimulationModule } from '@/freight-simulation/freight-simulation
     }),
     FreightSimulationModule,
     MongoModule,
+    OperatorModule,
   ],
   controllers: [AppController],
   providers: [AppService],
