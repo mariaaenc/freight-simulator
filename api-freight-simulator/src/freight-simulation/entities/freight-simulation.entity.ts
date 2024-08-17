@@ -1,3 +1,5 @@
+import { Operator } from '@/app.types';
+
 export class FreightSimulation {
   customerId: string;
   originZipCode: string;
@@ -6,12 +8,5 @@ export class FreightSimulation {
   width: number;
   length: number;
   createdAt: Date;
-  operatorsResult: {
-    operatorId: string;
-    name: string;
-    totalCost: number | string;
-    deliveryTime: number;
-    lowestCost: boolean;
-    fastestDelivery: boolean;
-  }[];
+  operatorsResult: Partial<Operator>[];
 }

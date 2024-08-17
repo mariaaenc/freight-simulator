@@ -28,6 +28,7 @@ describe('FreightSimulationController', () => {
   it('should create and return simulation', () => {
     expect(controller).toBeDefined();
     const response = controller.create({
+      customerId: 'fake-id',
       originZipCode: '89222520',
       destinationZipCode: '01001000',
       height: 0,

@@ -29,7 +29,10 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://freight-simulator.web.app/'],
+    origin: [
+      'http://localhost:3000',
+      'https://freight-simulator.firebaseapp.com',
+    ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     allowedHeaders: 'Content-Type, Authorization',
     credentials: true,

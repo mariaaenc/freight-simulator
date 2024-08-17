@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { FreightSimulationService } from '../freight-simulation.service';
 import { GeocodingModule } from '@/geocoding/geocoding.module';
 import { GeocodingService } from '@/geocoding/geocoding.service';
+import { FreightSimulationApiService } from '../freight-simulation.api.service';
 
 describe('FreightSimulationService', () => {
   let service: FreightSimulationService;
@@ -16,6 +17,12 @@ describe('FreightSimulationService', () => {
           provide: GeocodingService,
           useValue: {
             getLongitudeAndLatitude: getLongitudeAndLatitudeMock,
+          },
+        },
+        {
+          provide: FreightSimulationApiService,
+          useValue: {
+            create: jest.fn(),
           },
         },
       ],
@@ -36,6 +43,7 @@ describe('FreightSimulationService', () => {
           longitude: -48.6358,
         });
       const response = await service.create({
+        customerId: '123',
         originZipCode: '89222520',
         destinationZipCode: '01001000',
         height: 0,
@@ -44,18 +52,20 @@ describe('FreightSimulationService', () => {
       });
       expect(response).toEqual([
         {
+          totalCost: 'R$ 7,20',
           deliveryTime: 1,
-          fastestDelivery: true,
-          lowestCost: true,
+          operatorId: '1',
           name: 'Operador 1',
-          totalCost: 'R$ 9,60',
+          lowestCost: false,
+          fastestDelivery: true,
         },
         {
+          totalCost: 'R$ 6,00',
           deliveryTime: 1,
-          fastestDelivery: false,
-          lowestCost: false,
+          operatorId: '2',
           name: 'Operador 2',
-          totalCost: 'R$ 10,80',
+          lowestCost: true,
+          fastestDelivery: true,
         },
       ]);
     });
