@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { currencyFormat, calculateDistance } from '@/helpers';
+import { currencyFormat, calculateDistance } from '@/common/helpers';
 import { GeocodingService } from '@/geocoding/geocoding.service';
 import { CreateFreightSimulationDto } from './dto/create-freight-simulation.dto';
 import { FreightSimulationApiService } from './freight-simulation.api.service';
