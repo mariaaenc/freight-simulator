@@ -12,7 +12,7 @@ async function bootstrap() {
       'API responsible for the context of freight and logistics operators',
     )
     .setVersion('1.0')
-    .addTag('Operators')
+    .addTag('Operator')
     .addTag('Freight Simulation')
     .build();
 
