@@ -1,7 +1,11 @@
 import { MongoClient, Db, Collection } from 'mongodb';
 import { Test, TestingModule } from '@nestjs/testing';
 import { OperatorApiService } from '../operator.api.service';
-import { operatorToCreateMock } from '../mocks/operator';
+import {
+  freightInformationMock,
+  operatorToCreateMock,
+} from '../mocks/operator';
+import { Operator } from '../entities/operator.entity';
 
 describe('OperatorApiService', () => {
   let service: OperatorApiService;
@@ -33,7 +37,6 @@ describe('OperatorApiService', () => {
   });
 
   afterAll(async () => {
-    await collection.drop();
     await client.close();
   });
 
@@ -49,6 +52,40 @@ describe('OperatorApiService', () => {
         _id: response.insertedId,
         createdAt: expect.any(Date),
       });
+    });
+  });
+
+  describe('findAll', () => {
+    it('should return empty array when not has operators', async () => {
+      const response = await service.findAll();
+      expect(response).toEqual([]);
+    });
+
+    it('should return array with operators', async () => {
+      const [operator1, operator2] = await Promise.all([
+        service.create(operatorToCreateMock),
+        service.create({
+          ...operatorToCreateMock,
+          name: 'other operator',
+          divisor: 3000,
+        }),
+      ]);
+      const response = await service.findAll();
+      const expectedResponse = [
+        new Operator({
+          id: String(operator1.insertedId),
+          name: 'Operador 1',
+          divisor: 5000,
+          freightInformation: freightInformationMock,
+        }),
+        new Operator({
+          id: String(operator2.insertedId),
+          name: 'other operator',
+          divisor: 3000,
+          freightInformation: freightInformationMock,
+        }),
+      ];
+      expect(response).toEqual(expectedResponse);
     });
   });
 });

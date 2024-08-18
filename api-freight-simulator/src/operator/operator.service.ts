@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateOperatorDto } from './dto/create-operator.dto';
 import { UpdateOperatorDto } from './dto/update-operator.dto';
 import { OperatorApiService } from './operator.api.service';
+import { Operator } from './entities/operator.entity';
 
 @Injectable()
 export class OperatorService {
@@ -10,8 +11,8 @@ export class OperatorService {
     return this.operatorApiService.create(createOperatorDto);
   }
 
-  findAll() {
-    return `This action returns all operator`;
+  findAll(): Promise<Operator[]> {
+    return this.operatorApiService.findAll();
   }
 
   findOne(id: number) {
@@ -19,7 +20,7 @@ export class OperatorService {
   }
 
   update(id: number, updateOperatorDto: UpdateOperatorDto) {
-    return `This action updates a #${id} operator, ${updateOperatorDto}`;
+    return `This action updates a #${id} operator, ${JSON.stringify(updateOperatorDto)}`;
   }
 
   remove(id: number) {

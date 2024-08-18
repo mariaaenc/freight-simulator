@@ -7,6 +7,6 @@ import { GeocodingApiService } from './geocoding.api.service';
 @Module({
   imports: [HttpModule, ConfigModule],
   providers: [GeocodingService, GeocodingApiService],
-  exports: [GeocodingService, GeocodingApiService],
+  exports: [GeocodingService],
 })
 export class GeocodingModule {}

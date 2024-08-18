@@ -8,11 +8,13 @@ import {
   Operator,
   OperatorDistanceRange,
 } from '@/operator/entities/operator.entity';
+import { OperatorService } from '@/operator/operator.service';
 
 @Injectable()
 export class FreightSimulationService {
   constructor(
     private readonly geocodingService: GeocodingService,
+    private readonly operatorService: OperatorService,
     private readonly freightSimulationApiService: FreightSimulationApiService,
   ) {}
   public async create(data: CreateFreightSimulationDto) {
@@ -20,7 +22,7 @@ export class FreightSimulationService {
       data.originZipCode,
       data.destinationZipCode,
     );
-    const operators = this.calculateOperatorsTotalCostAndDeliveryTime(
+    const operators = await this.calculateOperatorsTotalCostAndDeliveryTime(
       distance,
       data,
     );
@@ -78,78 +80,25 @@ export class FreightSimulationService {
         (info) =>
           info.distance ===
           OperatorDistanceRange.LESS_THAN_OR_EQUAL_TO_ONE_HUNDRED,
-      )!;
+      );
     } else if (distance <= 500) {
       return freightInformation.find(
         (info) =>
           info.distance ===
           OperatorDistanceRange.LESS_THAN_OR_EQUAL_TO_FIVE_HUNDRED,
-      )!;
+      );
     } else {
       return freightInformation.find(
         (info) => info.distance === OperatorDistanceRange.OTHER_VALUE,
-      )!;
+      );
     }
   }
 
-  private calculateOperatorsTotalCostAndDeliveryTime(
+  private async calculateOperatorsTotalCostAndDeliveryTime(
     distance: number,
     data: CreateFreightSimulationDto,
-  ): Partial<Operator>[] {
-    const operators: Operator[] = [
-      {
-        id: '1',
-        name: 'Operador 1',
-        deliveryTime: 0,
-        totalCost: 0,
-        lowestCost: false,
-        fastestDelivery: false,
-        divisor: 5000,
-        freightInformation: [
-          {
-            distance: OperatorDistanceRange.LESS_THAN_OR_EQUAL_TO_ONE_HUNDRED,
-            multiplesOfDistance: 1.2,
-            deliveryTime: 1,
-          },
-          {
-            distance: OperatorDistanceRange.LESS_THAN_OR_EQUAL_TO_FIVE_HUNDRED,
-            multiplesOfDistance: 1.6,
-            deliveryTime: 3,
-          },
-          {
-            distance: OperatorDistanceRange.OTHER_VALUE,
-            multiplesOfDistance: 5.0,
-            deliveryTime: 4,
-          },
-        ],
-      },
-      {
-        id: '2',
-        name: 'Operador 2',
-        deliveryTime: 0,
-        totalCost: 0,
-        lowestCost: false,
-        fastestDelivery: false,
-        divisor: 6000,
-        freightInformation: [
-          {
-            distance: OperatorDistanceRange.LESS_THAN_OR_EQUAL_TO_ONE_HUNDRED,
-            multiplesOfDistance: 1.0,
-            deliveryTime: 1,
-          },
-          {
-            distance: OperatorDistanceRange.LESS_THAN_OR_EQUAL_TO_FIVE_HUNDRED,
-            multiplesOfDistance: 1.8,
-            deliveryTime: 2,
-          },
-          {
-            distance: OperatorDistanceRange.OTHER_VALUE,
-            multiplesOfDistance: 4.0,
-            deliveryTime: 5,
-          },
-        ],
-      },
-    ];
+  ): Promise<Partial<Operator>[]> {
+    const operators = await this.operatorService.findAll();
 
     return operators.map((operator: Operator) => {
       const costPerCubicWeight = this.calculateCostPerCubicWeight(

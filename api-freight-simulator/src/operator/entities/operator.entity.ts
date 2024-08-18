@@ -1,12 +1,19 @@
 export class Operator {
   id: string;
   name: string;
-  deliveryTime: number;
-  totalCost: number | string;
-  lowestCost: boolean;
-  fastestDelivery: boolean;
   divisor: number;
   freightInformation: FreightInformation[];
+  deliveryTime?: number;
+  totalCost?: number | string;
+  lowestCost?: boolean;
+  fastestDelivery?: boolean;
+
+  constructor(data: Operator) {
+    this.id = data.id;
+    this.name = data.name;
+    this.divisor = data.divisor;
+    this.freightInformation = data.freightInformation;
+  }
 }
 
 export enum OperatorDistanceRange {

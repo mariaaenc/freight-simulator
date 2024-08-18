@@ -20,4 +20,17 @@ export class OperatorApiService {
       createdAt: new Date(),
     });
   }
+
+  async findAll(): Promise<Operator[]> {
+    const operators = await this.collection.find({}).toArray();
+    return operators.map(
+      (item) =>
+        new Operator({
+          id: String(item._id),
+          name: item.name,
+          divisor: item.divisor,
+          freightInformation: item.freightInformation,
+        }),
+    );
+  }
 }

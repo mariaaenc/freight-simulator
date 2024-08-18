@@ -6,6 +6,7 @@ import { operatorToCreateMock } from '../mocks/operator';
 describe('OperatorController', () => {
   let controller: OperatorController;
   const createOperatorMock = jest.fn();
+  const findAllOperatorMock = jest.fn();
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [OperatorController],
@@ -14,6 +15,7 @@ describe('OperatorController', () => {
           provide: OperatorService,
           useValue: {
             create: createOperatorMock,
+            findAll: findAllOperatorMock,
           },
         },
       ],
@@ -27,6 +29,15 @@ describe('OperatorController', () => {
       createOperatorMock.mockReturnValueOnce({});
       const response = await controller.create(operatorToCreateMock);
       expect(createOperatorMock).toHaveBeenCalledWith(operatorToCreateMock);
+      expect(response).toEqual({});
+    });
+  });
+
+  describe('findAll', () => {
+    it('should findAll operators', async () => {
+      findAllOperatorMock.mockReturnValueOnce({});
+      const response = await controller.findAll();
+      expect(findAllOperatorMock).toHaveBeenCalledWith();
       expect(response).toEqual({});
     });
   });

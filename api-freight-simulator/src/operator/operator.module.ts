@@ -6,5 +6,6 @@ import { OperatorApiService } from './operator.api.service';
 @Module({
   controllers: [OperatorController],
   providers: [OperatorService, OperatorApiService],
+  exports: [OperatorService],
 })
 export class OperatorModule {}

@@ -5,11 +5,14 @@ import { FreightSimulationService } from '../freight-simulation.service';
 import { FreightSimulationApiService } from '../freight-simulation.api.service';
 import { CreateFreightSimulationDto } from '../dto/create-freight-simulation.dto';
 import { freightSimulationRequestMock } from '../mocks/freight-simulation.mock';
+import { OperatorService } from '@/operator/operator.service';
+import { operatorsMock } from '@/operator/mocks/operator';
 
 describe('FreightSimulationService', () => {
   let service: FreightSimulationService;
   const getLongitudeAndLatitudeMock = jest.fn();
   const createFreightSimulationApiMock = jest.fn();
+  const findAllOperatorMock = jest.fn();
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -27,6 +30,12 @@ describe('FreightSimulationService', () => {
             create: createFreightSimulationApiMock,
           },
         },
+        {
+          provide: OperatorService,
+          useValue: {
+            findAll: findAllOperatorMock,
+          },
+        },
       ],
     }).compile();
 
@@ -35,6 +44,7 @@ describe('FreightSimulationService', () => {
 
   describe('create', () => {
     it('should create and return freight simulation', async () => {
+      findAllOperatorMock.mockReturnValueOnce(operatorsMock);
       getLongitudeAndLatitudeMock
         .mockReturnValueOnce({ latitude: -26.9211, longitude: -49.0662 })
         .mockReturnValueOnce({ latitude: -26.7882, longitude: -48.6358 });
@@ -62,6 +72,7 @@ describe('FreightSimulationService', () => {
     });
 
     it('should create and return freight simulation for different values', async () => {
+      findAllOperatorMock.mockReturnValueOnce(operatorsMock);
       getLongitudeAndLatitudeMock
         .mockReturnValueOnce({ latitude: -28.9211, longitude: -78.0662 })
         .mockReturnValueOnce({ latitude: -26.7882, longitude: -48.6358 });
