@@ -24,12 +24,15 @@ const SimulateFreightForm: React.FC = () => {
     const { id, value } = event.target;
     setFormValues(prevValues => ({
       ...prevValues,
+      originZipCode: prevValues.originZipCode.replace(/\D/g, '').slice(0, 8),
+      destinationZipCode: prevValues.destinationZipCode.replace(/\D/g, '').slice(0, 8),
       [id]: value,
     }));
   };
 
   const isFormValid = () => {
-    return Object.values(formValues).every(value => value.trim() !== '');
+    const notHasEmptyValue = Object.values(formValues).every(value => value.trim() !== '');
+    return notHasEmptyValue && formValues.destinationZipCode.length === 8 && formValues.originZipCode.length === 8
   };
 
   const simulate = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -84,6 +87,7 @@ const SimulateFreightForm: React.FC = () => {
             id='originZipCode' 
             value={formValues.originZipCode} 
             onChange={handleInputChange} 
+            inputProps={{ maxLength: 8 }}
           />
 
           <TextField
@@ -92,6 +96,7 @@ const SimulateFreightForm: React.FC = () => {
             id='destinationZipCode' 
             value={formValues.destinationZipCode} 
             onChange={handleInputChange} 
+            inputProps={{ maxLength: 8 }}
           />
         </div>        
         <div>
