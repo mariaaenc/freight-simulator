@@ -2,6 +2,7 @@ import { MongoClient, Db, Collection } from 'mongodb';
 import { Test, TestingModule } from '@nestjs/testing';
 import { FreightSimulationApiService } from '../freight-simulation.api.service';
 import { freightSimulationMock } from '../mocks/freight-simulation.mock';
+import { FreightSimulation } from '../entities/freight-simulation.entity';
 
 describe('FreightSimulationApiService', () => {
   let service: FreightSimulationApiService;
@@ -35,7 +36,6 @@ describe('FreightSimulationApiService', () => {
   });
 
   afterAll(async () => {
-    await collection.drop();
     await client.close();
   });
 
@@ -51,6 +51,52 @@ describe('FreightSimulationApiService', () => {
         _id: response.insertedId,
         createdAt: expect.any(Date),
       });
+    });
+  });
+
+  describe('findAllByCustomer', () => {
+    it('should find all freight simulation by customer id', async () => {
+      const freightSimulationInserted = await service.create(
+        freightSimulationMock,
+      );
+      const response = await service.findAllByCustomer(
+        freightSimulationMock.customerId,
+      );
+      expect(response).toEqual([
+        new FreightSimulation({
+          id: String(freightSimulationInserted.insertedId),
+          customerId: 'customerId',
+          originZipCode: '89222520',
+          destinationZipCode: '01001000',
+          height: 30,
+          width: 20,
+          length: 40,
+          createdAt: expect.any(Date),
+          operatorsResult: [
+            {
+              id: '1',
+              name: 'Operador 1',
+              totalCost: 'R$ 9,60',
+              deliveryTime: 3,
+              lowestCost: false,
+              fastestDelivery: false,
+            },
+            {
+              id: '2',
+              name: 'Operador 2',
+              totalCost: 'R$ 10,80',
+              deliveryTime: 2,
+              lowestCost: true,
+              fastestDelivery: true,
+            },
+          ],
+        }),
+      ]);
+    });
+
+    it('should return empty array when customer not has simulations', async () => {
+      const response = await service.findAllByCustomer('');
+      expect(response).toEqual([]);
     });
   });
 });

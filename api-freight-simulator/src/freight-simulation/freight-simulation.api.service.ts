@@ -12,7 +12,7 @@ export class FreightSimulationApiService {
     this.collection = this.db.collection('freight_simulation');
   }
 
-  async create(
+  public async create(
     data: Partial<FreightSimulation>,
   ): Promise<InsertOneResult<Document>> {
     return this.collection.insertOne({
@@ -25,5 +25,25 @@ export class FreightSimulationApiService {
       createdAt: new Date(),
       operatorsResult: data.operatorsResult,
     });
+  }
+
+  public async findAllByCustomer(id: string) {
+    const simulations = await this.collection
+      .find({ customerId: id })
+      .toArray();
+    return simulations.map(
+      (item) =>
+        new FreightSimulation({
+          id: String(item._id),
+          customerId: item.customerId,
+          originZipCode: item.originZipCode,
+          destinationZipCode: item.destinationZipCode,
+          height: item.height,
+          width: item.width,
+          length: item.length,
+          createdAt: item.createdAt,
+          operatorsResult: item.operatorsResult,
+        }),
+    );
   }
 }

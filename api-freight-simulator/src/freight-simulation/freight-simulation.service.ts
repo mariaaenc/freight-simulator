@@ -17,6 +17,10 @@ export class FreightSimulationService {
     private readonly operatorService: OperatorService,
     private readonly freightSimulationApiService: FreightSimulationApiService,
   ) {}
+  public findAllByCustomer(id: string) {
+    return this.freightSimulationApiService.findAllByCustomer(id);
+  }
+
   public async create(data: CreateFreightSimulationDto) {
     const distance = await this.calculateDistanceBetweenLocations(
       data.originZipCode,

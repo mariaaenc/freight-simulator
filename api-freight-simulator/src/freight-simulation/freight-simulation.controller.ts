@@ -1,5 +1,5 @@
 import { ApiTags } from '@nestjs/swagger';
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param } from '@nestjs/common';
 import { FreightSimulationService } from './freight-simulation.service';
 import { CreateFreightSimulationDto } from './dto/create-freight-simulation.dto';
 
@@ -13,5 +13,10 @@ export class FreightSimulationController {
   @ApiTags('Freight Simulation')
   create(@Body() createFreightSimulationDto: CreateFreightSimulationDto) {
     return this.freightSimulationService.create(createFreightSimulationDto);
+  }
+
+  @Get('/customer/:id')
+  findAllByCustomer(@Param('id') id: string) {
+    return this.freightSimulationService.findAllByCustomer(id);
   }
 }
