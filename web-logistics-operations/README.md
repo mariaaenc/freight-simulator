@@ -2,6 +2,16 @@
 
 Web app responsible for the context of freight and logistics operators.
 
+## Initializing
+
+Enter the project folder:
+
+`cd web-logistics-operations`
+
+To run this project you need have the credentials. Talk to admin to check.
+
+`cp .env.example .env`
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -32,6 +42,37 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 ### `npm run test:integration`
 
 Running cypress integration tests.
+
+To run tests correctly you need create file `cypress.env.json` with correct firebase credentials:
+```
+{
+    "TEST_UID": "",
+    "REACT_APP_API_KEY": "",
+    "REACT_APP_AUTH_DOMAIN": "",
+    "REACT_APP_PROJECT_ID": "",
+    "REACT_APP_STORAGE_BUCKET": "",
+    "REACT_APP_MESSAGING_SENDER_ID": "",
+    "REACT_APP_API_ID": "",
+    "REACT_APP_MEASUREMENT_ID": "",
+}
+```
+Also you need create a `serviceAccount.json`, to get these credentials you must be part of the firebase project. Talk to admin to check.
+
+```
+{
+    "type": "",
+    "project_id": "",
+    "private_key_id": "",
+    "private_key": "",
+    "client_email": "",
+    "client_id": "",
+    "auth_uri": "",
+    "token_uri": "",
+    "auth_provider_x509_cert_url": "",
+    "client_x509_cert_url": "",
+    "universe_domain": "",
+}
+```
 
 ### `npm run eject`
 
