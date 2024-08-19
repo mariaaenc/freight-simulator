@@ -4,6 +4,8 @@
 
 API responsible for the context of freight and logistics operators.
 
+Swagger Docs: https://api-freight-simulator-b7aa6dc01480.herokuapp.com/docs
+
 ## Initializing
 
 Enter the project folder:
