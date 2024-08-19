@@ -1,5 +1,5 @@
 import React from 'react';
-import { FreightOperator } from './Freight.types';
+import { FreightOperator } from './freight.types';
 import { Card, CardContent, Typography } from '@mui/material';
 
 interface SimulateFreightOptionsProps {
