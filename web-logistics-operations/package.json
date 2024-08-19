@@ -16,18 +16,22 @@
     "@types/react-dom": "^18.3.0",
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.7.4",
+    "cypress": "^13.13.3",
+    "cypress-firebase": "^4.2.0",
     "firebase": "^10.13.0",
+    "firebase-admin": "^12.3.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.26.1",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
+    "text-encoding": "^0.7.0",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!)/'",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
