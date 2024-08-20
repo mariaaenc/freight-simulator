@@ -1,10 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { initializeApp } from 'firebase-admin/app';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  initializeApp({
+    projectId: 'freight-simulator',
+    storageBucket: 'freight-simulator.appspot.com',
+  });
 
   const config = new DocumentBuilder()
     .setTitle('API Logistics Operations')
@@ -14,6 +19,14 @@ async function bootstrap() {
     .setVersion('1.0')
     .addTag('Operator')
     .addTag('Freight Simulation')
+    .addApiKey(
+      {
+        type: 'apiKey',
+        name: 'authorization',
+        in: 'header',
+      },
+      'authorization',
+    )
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
@@ -34,7 +47,7 @@ async function bootstrap() {
       'https://freight-simulator.firebaseapp.com',
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-    allowedHeaders: 'Content-Type, Authorization',
+    allowedHeaders: 'Content-Type, Authorization, x-customer-uid',
     credentials: true,
   });
 
