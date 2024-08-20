@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button, Container, Typography } from '@mui/material';
 import { auth, GoogleAuthProvider, signInWithPopup } from './firebase';
+import { updateAxiosHeaders } from '../axiosConfig'
 
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -9,7 +10,17 @@ const LoginPage: React.FC = () => {
   const login = async () => {
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const userCredential = await signInWithPopup(auth, provider);
+      const user = userCredential.user;
+      
+      const customerUid = user.uid;
+      const token = await user.getIdToken();
+  
+      localStorage.setItem('x-customer-uid', customerUid);
+      localStorage.setItem('authorization', token);
+
+      updateAxiosHeaders();
+
       navigate('/simulate-freight');
     } catch (error) {
       console.error('Error on login:', error);
