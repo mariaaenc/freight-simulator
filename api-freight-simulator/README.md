@@ -60,8 +60,6 @@ $ docker ps
 
 $ heroku container:push web
 
-$ heroku container:push web
-
 $ heroku container:release web
 
 # container logs
